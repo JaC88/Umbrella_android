@@ -8,7 +8,7 @@ interface FormRepo {
 
     suspend fun persistActiveForm(activeForm: ActiveForm): Boolean
 
-    suspend fun loadModelForms(): List<Form>
+    suspend fun loadModelForms(languageId: Int): List<Form>
 
     suspend fun loadAnswerBy(formId: Long): List<Answer>
 

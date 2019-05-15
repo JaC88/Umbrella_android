@@ -5,6 +5,7 @@ import org.secfirst.umbrella.data.database.form.ActiveForm
 import org.secfirst.umbrella.data.database.form.Answer
 import org.secfirst.umbrella.data.database.form.Form
 import org.secfirst.umbrella.data.database.form.asHTML
+import org.secfirst.umbrella.data.disk.getCurrentLanguageId
 import org.secfirst.umbrella.feature.base.presenter.BasePresenterImp
 import org.secfirst.umbrella.feature.form.interactor.FormBaseInteractor
 import org.secfirst.umbrella.feature.form.view.FormView
@@ -61,7 +62,8 @@ class FormPresenterImp<V : FormView, I : FormBaseInteractor>
         launchSilent(uiContext) {
             interactor?.let {
                 val activeForms = it.fetchActiveForms()
-                val modelForms = it.fetchModalForms()
+                val languageId = getCurrentLanguageId(it.getDefaultLanguage())
+                val modelForms = it.fetchModalForms(languageId)
                 populateReferenceId(activeForms, modelForms)
 
                 getView()?.showModelAndActiveForms(modelForms.toMutableList(),

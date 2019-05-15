@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel
 import org.jsoup.Jsoup
 import org.secfirst.advancedsearch.models.SearchResult
 import org.secfirst.umbrella.data.database.AppDatabase
+import org.secfirst.umbrella.data.database.content.Language
 import org.secfirst.umbrella.feature.form.FieldType
 import org.secfirst.umbrella.feature.form.hasAnswer
 import java.io.Serializable
@@ -23,6 +24,8 @@ data class Form(
         var title: String = "",
         @Column
         var deeplinkTitle: String = "",
+        @ForeignKey(stubbedRelationship = true)
+        var language: Language? = null,
         var screens: MutableList<Screen> = arrayListOf()) : BaseModel(), Serializable {
 
     @OneToMany(methods = [(OneToMany.Method.ALL)], variableName = "screens")

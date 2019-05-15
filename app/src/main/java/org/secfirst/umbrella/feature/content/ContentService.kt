@@ -12,6 +12,7 @@ import org.secfirst.umbrella.R
 import org.secfirst.umbrella.data.database.content.ContentDao
 import org.secfirst.umbrella.data.database.content.createDefaultRSS
 import org.secfirst.umbrella.data.database.content.createFeedSources
+import org.secfirst.umbrella.data.database.content.createLanguages
 import org.secfirst.umbrella.data.disk.*
 import org.secfirst.umbrella.data.preferences.AppPreferenceHelper.Companion.PREF_NAME
 import org.secfirst.umbrella.misc.AppExecutors.Companion.ioContext
@@ -51,14 +52,22 @@ class ContentService : Service(), ElementSerializeMonitor {
         launchSilent(uiContext) {
             val isCloned = if (isInternetConnected()) cloneRepository(url) else false
             if (isCloned) {
-                val predicateLanguage ="${getPathRepository()}${defaultTentLanguage()}"
-                val element = elementSerialize.serializeContent(predicateLanguage)
-                contentDao.insertAllContent(element)
-                contentDao.insertFeedSource(createFeedSources())
-                contentDao.insertDefaultRSS(createDefaultRSS())
-            } else {
-                sendNoConnectionMessage()
+                processCompleted()
             }
+
+//                contentDao.insertLanguages(createLanguages())
+//                createLanguages().forEach {
+//                    val predicateLanguage = "${getPathRepository()}${it.name}"
+//                    println(predicateLanguage)
+//                    val element = elementSerialize.serializeContent(predicateLanguage, it)
+//                    contentDao.insertAllContent(element)
+//                }
+//                contentDao.insertFeedSource(createFeedSources())
+//                contentDao.insertDefaultRSS(createDefaultRSS())
+//
+//            } else {
+//                sendNoConnectionMessage()
+//            }
         }
     }
 

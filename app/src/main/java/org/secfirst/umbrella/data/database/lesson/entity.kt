@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import org.secfirst.umbrella.R
 import org.secfirst.umbrella.data.database.AppDatabase
 import org.secfirst.umbrella.data.database.checklist.Checklist
 import org.secfirst.umbrella.data.database.checklist.Checklist_Table
+import org.secfirst.umbrella.data.database.content.Language
 import org.secfirst.umbrella.data.database.difficulty.Difficulty
 import org.secfirst.umbrella.data.database.difficulty.Difficulty_Table
 import org.secfirst.umbrella.data.database.segment.Markdown
@@ -41,7 +43,9 @@ open class Module(
         var icon: String = "",
         @Column
         @JsonIgnore
-        var resourcePath: String = "") : Parcelable {
+        var resourcePath: String = "",
+        @ForeignKey(stubbedRelationship = true)
+        var language: @RawValue Language? = null) : Parcelable {
 
     @OneToMany(methods = [(OneToMany.Method.ALL)], variableName = "markdowns")
     fun oneToManyMarkdowns(): MutableList<Markdown> {

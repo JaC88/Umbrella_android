@@ -4,10 +4,11 @@ import org.secfirst.umbrella.data.database.form.ActiveForm
 import org.secfirst.umbrella.data.database.form.Answer
 import org.secfirst.umbrella.data.database.form.FormRepo
 import org.secfirst.umbrella.data.database.form.Screen
+import org.secfirst.umbrella.data.preferences.AppPreferenceHelper
 import org.secfirst.umbrella.feature.base.interactor.BaseInteractorImp
 import javax.inject.Inject
 
-class FormInteractorImp @Inject constructor(private val formRepo: FormRepo) : BaseInteractorImp(), FormBaseInteractor {
+class FormInteractorImp @Inject constructor(private val formRepo: FormRepo, preferenceHelper: AppPreferenceHelper) : BaseInteractorImp(preferenceHelper), FormBaseInteractor {
 
     override suspend fun fetchForm(formTitle: String) = formRepo.loadForm(formTitle)
 
@@ -23,5 +24,5 @@ class FormInteractorImp @Inject constructor(private val formRepo: FormRepo) : Ba
 
     override suspend fun insertFormData(answer: Answer) = formRepo.persistFormData(answer)
 
-    override suspend fun fetchModalForms() = formRepo.loadModelForms()
+    override suspend fun fetchModalForms(languageId: Int) = formRepo.loadModelForms(languageId)
 }

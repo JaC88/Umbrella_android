@@ -15,7 +15,7 @@ interface FormBaseInteractor : BaseInteractor {
 
     suspend fun deleteActiveForm(activeForm: ActiveForm)
 
-    suspend fun fetchModalForms(): List<Form>
+    suspend fun fetchModalForms(languageId: Int): List<Form>
 
     suspend fun fetchActiveForms(): List<ActiveForm>
 

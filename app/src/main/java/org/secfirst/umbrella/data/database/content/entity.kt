@@ -4,15 +4,26 @@ package org.secfirst.umbrella.data.database.content
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.raizlabs.android.dbflow.annotation.Column
+import com.raizlabs.android.dbflow.annotation.PrimaryKey
+import com.raizlabs.android.dbflow.annotation.Table
 import org.apache.commons.text.WordUtils
 import org.secfirst.advancedsearch.models.SearchResult
+import org.secfirst.umbrella.data.database.AppDatabase
 import org.secfirst.umbrella.data.database.checklist.Content
 import org.secfirst.umbrella.data.database.form.Form
 import org.secfirst.umbrella.data.database.lesson.Module
 import org.secfirst.umbrella.data.database.reader.FeedSource
 import org.secfirst.umbrella.data.database.reader.RSS
+import org.secfirst.umbrella.data.disk.IsoCountry
 
 class ContentData(val modules: MutableList<Module> = arrayListOf(), val forms: MutableList<Form> = arrayListOf())
+
+@Table(database = AppDatabase::class, useBooleanGetterSetters = false)
+data class Language(@PrimaryKey
+                    var id: Int = 0,
+                    @Column
+                    var name: String = "")
 
 fun Content.toSearchResult(): SearchResult {
     val segments = this.checklist?.id.orEmpty().split("/")
@@ -56,3 +67,26 @@ fun createDefaultRSS(): List<RSS> {
     rssList.add(rss6)
     return rssList
 }
+
+fun createLanguages(): List<Language> {
+    val languagesList = mutableListOf<Language>()
+    for (language in IsoCountry.values()) {
+        val lan = when (language.value) {
+            "gb" -> "en"
+            "zh" -> "zh-Hant"
+            else -> language.value
+        }
+        languagesList.add(Language(language.id, lan))
+    }
+    println(languagesList)
+    return languagesList
+}
+
+//enum class Languages(val id: Int, val lang: String) {
+//    ENGLISH(1, "en"),
+//    SPANISH(2, "es")
+////    CHINESE(3, "zh"),
+////    ARABIC(4, "ar"),
+////    FARSI(5, "fa"),
+////    RUSSIAN(6, "ru")
+//}

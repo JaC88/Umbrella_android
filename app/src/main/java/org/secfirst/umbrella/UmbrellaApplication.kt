@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowLog
 import com.raizlabs.android.dbflow.config.FlowManager
+import dagger.Module
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import io.fabric.sdk.android.Fabric
@@ -54,7 +55,7 @@ class UmbrellaApplication : Application(), HasActivityInjector {
         if (!isLogged) initDatabase()
         initDaggerComponent()
         initFonts()
-        initFabric()
+//        initFabric()
         initDefaultLocation()
     }
 
@@ -90,16 +91,16 @@ class UmbrellaApplication : Application(), HasActivityInjector {
                 .build())
     }
 
-    private fun initFabric() {
-        val crashlyticsKit = Crashlytics.Builder()
-                .core(CrashlyticsCore.Builder().disabled(true).build())
-                .build()
-        val fabric = Fabric.Builder(this)
-                .kits(crashlyticsKit)
-                .debuggable(true)
-                .build()
-        Fabric.with(fabric)
-    }
+//    private fun initFabric() {
+//        val crashlyticsKit = Crashlytics.Builder()
+//                .core(CrashlyticsCore.Builder().disabled(true).build())
+//                .build()
+//        val fabric = Fabric.Builder(this)
+//                .kits(crashlyticsKit)
+//                .debuggable(true)
+//                .build()
+//        Fabric.with(fabric)
+//    }
 
     override fun onTerminate() {
         super.onTerminate()

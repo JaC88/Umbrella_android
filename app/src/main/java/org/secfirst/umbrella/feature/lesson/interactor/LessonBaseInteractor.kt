@@ -8,7 +8,7 @@ import org.secfirst.umbrella.feature.base.interactor.BaseInteractor
 
 interface LessonBaseInteractor : BaseInteractor {
 
-    suspend fun fetchModules(): List<Module>
+    suspend fun fetchModules(languageId: Int): List<Module>
 
     suspend fun fetchLesson(moduleId: String): Module?
 

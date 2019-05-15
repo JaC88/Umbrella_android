@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.withContext
 import org.secfirst.umbrella.data.database.checklist.Checklist
 import org.secfirst.umbrella.data.database.content.ContentData
+import org.secfirst.umbrella.data.database.content.Language
 import org.secfirst.umbrella.data.database.difficulty.Difficulty
 import org.secfirst.umbrella.data.database.form.Form
 import org.secfirst.umbrella.data.database.form.associateFormForeignKey
@@ -26,24 +27,24 @@ class TentLoader @Inject constructor(private val tentRepo: TentRepo, contentServ
     private var fileCount = 0
     private var listSize = 0
 
-    suspend fun serializeContent(path : String):ContentData {
+    suspend fun serializeContent(path : String, language: Language):ContentData {
         withContext(ioContext) {
             val files = tentRepo.loadElementsFile(path)
             val formFiles = tentRepo.loadFormFile(path)
             listSize = files.size + formFiles.size
-            processFiles(files)
-            loadForm(formFiles)
+            processFiles(files, language)
+            loadForm(formFiles, language)
         }
         return contentData
     }
 
-    private fun processFiles(files: List<File>) {
+    private fun processFiles(files: List<File>, language: Language) {
         files.forEach { file ->
             fileCount++
             val absolutePath = file.path.substringAfterLast(getPathRepository())
             val pwd = file.path.substringBeforeLast(file.name)
             when (getLevelOfPath(absolutePath)) {
-                ELEMENT_LEVEL -> serializeElement(pwd, file)
+                ELEMENT_LEVEL -> serializeElement(pwd, file, language)
                 SUB_ELEMENT_LEVEL -> serializeSubElement(pwd, file)
                 CHILD_LEVEL -> serializeChild(pwd, file)
             }
@@ -51,9 +52,9 @@ class TentLoader @Inject constructor(private val tentRepo: TentRepo, contentServ
         }
     }
 
-    private fun serializeElement(pwd: String, file: File) {
+    private fun serializeElement(pwd: String, file: File, language: Language) {
         val module = parseYmlFile(file, Module::class)
-        updateCategories(module, file)
+        updateCategories(module, file, language)
         filterSegmentFiles(pwd).forEach {
             val markdownText = it.readText().replaceMarkdownImage(pwd)
             val markdown = Markdown(it.path.substringAfterLast(getPathRepository()), markdownText).removeHead()
@@ -111,15 +112,15 @@ class TentLoader @Inject constructor(private val tentRepo: TentRepo, contentServ
         }
     }
 
-    private inline fun <reified T> updateCategories(obj: T, file: File) {
+    private inline fun <reified T> updateCategories(obj: T, file: File, language: Language = Language()) {
         val absolutePath = file.path.substringAfterLast(getPathRepository())
         val pwd = absolutePath.substringBeforeLast(file.name)
-        Log.e("test", file.path)
         when (obj) {
             is Module -> {
                 obj.id = pwd
                 obj.resourcePath = obj.icon.filterImageCategoryFile()
                 obj.rootDir = pwd.substringBeforeLast("/").substringAfterLast("/")
+                obj.language = language
                 contentData.modules.add(obj)
             }
             is Subject -> {
@@ -139,11 +140,12 @@ class TentLoader @Inject constructor(private val tentRepo: TentRepo, contentServ
         }
     }
 
-    private fun loadForm(formFiles: List<File>) {
+    private fun loadForm(formFiles: List<File>, language: Language) {
         formFiles.forEach {
             val form = parseYmlFile(it, Form::class)
             form.path = it.path.substringAfterLast(getPathRepository())
             form.deeplinkTitle = form.title.toLowerCase()
+            form.language = Language(language.id)
             contentData.forms.add(form)
             fileCount++
             calculatePercentage()

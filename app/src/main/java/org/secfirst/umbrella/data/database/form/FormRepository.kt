@@ -14,7 +14,7 @@ class FormRepository @Inject constructor(private val formDao: FormDao) : FormRep
 
     override suspend fun persistFormData(answer: Answer) = formDao.insertAnswer(answer)
 
-    override suspend fun loadModelForms() = formDao.getAllFormModel()
+    override suspend fun loadModelForms(languageId: Int) = formDao.getAllFormModel(languageId)
 
     override suspend fun loadAnswerBy(formId: Long) = formDao.getAnswerBy(formId)
 

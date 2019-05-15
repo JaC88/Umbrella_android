@@ -6,7 +6,7 @@ import org.secfirst.umbrella.data.database.segment.Markdown
 
 interface LessonRepo {
 
-    suspend fun loadAllModules(): List<Module>
+    suspend fun loadAllModules(languageId: Int): List<Module>
 
     suspend fun loadLessonBy(moduleId: String): Module?
 

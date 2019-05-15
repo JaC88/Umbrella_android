@@ -17,6 +17,10 @@ open class BaseInteractorImp() : BaseInteractor {
         this.contentRepo = contentRepo
     }
 
+    constructor(preferenceHelper: AppPreferenceHelper) : this() {
+        this.preferenceHelper = preferenceHelper
+    }
+
     override suspend fun resetContent(): Boolean {
         val res: Boolean = contentRepo.resetContent()
         preferenceHelper.setLoggedIn(false)

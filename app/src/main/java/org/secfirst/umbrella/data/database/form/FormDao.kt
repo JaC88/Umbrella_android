@@ -47,9 +47,10 @@ interface FormDao {
                 .queryList()
     }
 
-    suspend fun getAllFormModel(): List<Form> = withContext(ioContext) {
+    suspend fun getAllFormModel(languageId:Int): List<Form> = withContext(ioContext) {
         SQLite.select()
                 .from(Form::class.java)
+                .where(Form_Table.language_id.`is`(languageId))
                 .queryList()
     }
 

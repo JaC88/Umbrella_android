@@ -14,5 +14,5 @@ class LessonRepository @Inject constructor(private val lessonDao: LessonDao) : L
 
     override suspend fun loadDifficultyPreferredBy(subjectId: String) = lessonDao.getDifficultyPreferred(subjectId)
 
-    override suspend fun loadAllModules() = lessonDao.getAllLesson()
+    override suspend fun loadAllModules(languageId: Int) = lessonDao.getAllLesson(languageId)
 }

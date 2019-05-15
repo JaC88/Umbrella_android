@@ -12,9 +12,10 @@ import org.secfirst.umbrella.misc.AppExecutors.Companion.ioContext
 
 interface LessonDao {
 
-    suspend fun getAllLesson(): List<Module> = withContext(ioContext) {
+    suspend fun getAllLesson(languageId: Int): List<Module> = withContext(ioContext) {
         SQLite.select()
                 .from(Module::class.java)
+                .where(Module_Table.language_id.`is`(languageId))
                 .queryList()
     }
 

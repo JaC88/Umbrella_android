@@ -8,9 +8,12 @@ import org.secfirst.umbrella.data.database.lesson.Subject
 import org.secfirst.umbrella.data.database.lesson.toLesson
 import org.secfirst.umbrella.data.database.segment.Markdown.Companion.SINGLE_CHOICE
 import org.secfirst.umbrella.data.database.segment.ids
+import org.secfirst.umbrella.data.disk.IsoCountry
+import org.secfirst.umbrella.data.disk.getCurrentLanguageId
 import org.secfirst.umbrella.feature.base.presenter.BasePresenterImp
 import org.secfirst.umbrella.feature.lesson.interactor.LessonBaseInteractor
 import org.secfirst.umbrella.feature.lesson.view.LessonView
+import org.secfirst.umbrella.feature.main.MainActivity
 import org.secfirst.umbrella.misc.AppExecutors.Companion.uiContext
 import org.secfirst.umbrella.misc.launchSilent
 import javax.inject.Inject
@@ -65,7 +68,8 @@ class LessonPresenterImp<V : LessonView, I : LessonBaseInteractor> @Inject const
         launchSilent(uiContext) {
             interactor?.let {
                 val markdownsFavorite = it.fetchAllFavorites()
-                val modules = it.fetchModules()
+                val languageId = getCurrentLanguageId(it.getDefaultLanguage())
+                val modules = it.fetchModules(languageId)
                         .filter { lesson -> lesson.title != "" }
                         .toList()
                 if (modules.isNotEmpty())

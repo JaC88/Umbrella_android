@@ -23,16 +23,16 @@ class AccountInteractorImp @Inject constructor(apiHelper: ApiHelper,
 
     override suspend fun serializeNewContent(path: String) :Boolean{
         val res: Boolean
-        val newContent = tentLoader.serializeContent(path)
-        res = if (accountRepo.wipeMainContent()) {
-            contentRepo.insertAllLessons(newContent)
-            contentRepo.insertFeedSource(createFeedSources())
-            contentRepo.insertDefaultRSS(createDefaultRSS())
-            true
-        } else {
-            false
-        }
-        return res
+//        val newContent = tentLoader.serializeContent(path)
+//        res = if (accountRepo.wipeMainContent()) {
+//            contentRepo.insertAllLessons(newContent)
+//            contentRepo.insertFeedSource(createFeedSources())
+//            contentRepo.insertDefaultRSS(createDefaultRSS())
+//            true
+//        } else {
+//            false
+//        }
+        return true
     }
 
     override fun getMaskApp() = preferenceHelper.isMaskApp()

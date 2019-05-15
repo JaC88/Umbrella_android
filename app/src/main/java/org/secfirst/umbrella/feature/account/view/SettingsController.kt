@@ -188,10 +188,10 @@ class SettingsController : BaseController(),
         exportView.alertControlCancel.onClick { exportDataClose() }
         switchServerView.alertControlOk.onClick { switchServerOk() }
         switchServerView.alertControlCancel.onClick { switchServerDialog.dismiss() }
-        languageView.alertControlOk.onClick { switchLanguageAlert() }
+        languageView.alertControlOk.onClick { changeLanguageOk() }
         languageView.alertControlCancel.onClick { languageDialog.dismiss() }
-        switchLanguageAlertView.alertControlOk.onClick { changeLanguageOk() }
-        switchLanguageAlertView.alertControlCancel.onClick { switchLanguageAlertDialog.dismiss() }
+//        switchLanguageAlertView.alertControlOk.onClick { changeLanguageOk() }
+//        switchLanguageAlertView.alertControlCancel.onClick { switchLanguageAlertDialog.dismiss() }
         switchRepoAlertView.alertControlOk.onClick { switchRepoAlert() }
         switchRepoAlertView.alertControlCancel.onClick { switchRepoAlertDialog.dismiss() }
 
@@ -239,53 +239,42 @@ class SettingsController : BaseController(),
     }
 
     private fun changeLanguageOk() {
-        switchServerProgress.setTitle(context.getString(R.string.notification_update_database))
         when {
             languageView.spanishCheck.isChecked -> {
                 context.setLocale(IsoCountry.SPANISH.value)
                 presenter.setDefaultLanguage(IsoCountry.SPANISH.value)
                 mainView.imageLanguage.background = ContextCompat.getDrawable(appContext(), R.drawable.es)
-                presenter.changeContentLanguage("${getPathRepository()}es")
-                refreshServerProgress.show()
             }
             languageView.chineseCheck.isChecked -> {
                 context.setLocale(IsoCountry.CHINESE.value)
                 presenter.setDefaultLanguage(IsoCountry.CHINESE.value)
                 mainView.imageLanguage.background = ContextCompat.getDrawable(appContext(), R.drawable.ta)
-                presenter.changeContentLanguage("${getPathRepository()}zh-Hant")
-                refreshServerProgress.show()
             }
             languageView.arabicCheck.isChecked -> {
                 context.setLocale(IsoCountry.ARABIC.value)
                 presenter.setDefaultLanguage(IsoCountry.ARABIC.value)
                 mainView.imageLanguage.background = ContextCompat.getDrawable(appContext(), R.drawable.ae)
-                presenter.changeContentLanguage("${getPathRepository()}ar")
-                refreshServerProgress.show()
             }
             languageView.iranianCheck.isChecked -> {
                 context.setLocale(IsoCountry.FARSI.value)
                 presenter.setDefaultLanguage(IsoCountry.FARSI.value)
                 mainView.imageLanguage.background = ContextCompat.getDrawable(appContext(), R.drawable.ir)
-                presenter.changeContentLanguage("${getPathRepository()}fa")
-                refreshServerProgress.show()
             }
             languageView.russianCheck.isChecked -> {
                 context.setLocale(IsoCountry.RUSSIAN.value)
                 presenter.setDefaultLanguage(IsoCountry.RUSSIAN.value)
                 mainView.imageLanguage.background = ContextCompat.getDrawable(appContext(), R.drawable.ru)
-                presenter.changeContentLanguage("${getPathRepository()}ru")
-                refreshServerProgress.show()
             }
             else -> {
                 context.setLocale(IsoCountry.ENGLISH.value)
                 presenter.setDefaultLanguage(IsoCountry.ENGLISH.value)
                 mainView.imageLanguage.background = ContextCompat.getDrawable(appContext(), R.drawable.gb)
-                presenter.changeContentLanguage("${getPathRepository()}en")
-                refreshServerProgress.show()
             }
 
         }
-        switchLanguageAlertDialog.dismiss()
+
+        onChangedLanguageSuccess()
+        languageDialog.dismiss()
     }
 
     override fun getDefaultLanguage(isoCountry: String) {
@@ -595,7 +584,7 @@ class SettingsController : BaseController(),
     }
 
     override fun onChangedLanguageSuccess() {
-        refreshServerProgress.dismiss()
+//        refreshServerProgress.dismiss()
         mainActivity.recreate()
         mainActivity.navigationPositionToCenter()
     }

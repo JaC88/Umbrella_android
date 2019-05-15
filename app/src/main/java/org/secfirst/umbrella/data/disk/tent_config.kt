@@ -36,13 +36,13 @@ enum class TypeFile(val value: String) {
     NOUN("")
 }
 
-enum class IsoCountry(val value: String) {
-    ENGLISH("gb"),
-    CHINESE("zh"),
-    SPANISH("es"),
-    ARABIC("ar"),
-    FARSI("fa"),
-    RUSSIAN("ru")
+enum class IsoCountry(val id: Int, val value: String) {
+    ENGLISH(1, "gb"),
+    CHINESE(2, "zh"),
+    SPANISH(3, "es"),
+    ARABIC(4, "ar"),
+    FARSI(5, "fa"),
+    RUSSIAN(6, "ru")
 }
 
 enum class Template(val value: String) {
@@ -132,3 +132,11 @@ fun getWorkDirectoryFromImage(path: String): String {
 }
 
 fun basePath(): String = UmbrellaApplication.instance.cacheDir.path
+
+fun getCurrentLanguageId(language: String): Int {
+    IsoCountry.values().forEach {
+        if (language == it.value)
+            return it.id
+    }
+    return 1
+}

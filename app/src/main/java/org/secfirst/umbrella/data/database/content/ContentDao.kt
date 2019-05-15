@@ -88,6 +88,12 @@ interface ContentDao : BaseDao, ContentMonitor {
         }
     }
 
+    suspend fun insertLanguages(languageList: List<Language>){
+        withContext(ioContext){
+            modelAdapter<Language>().saveAll(languageList)
+        }
+    }
+
     suspend fun resetContent(): Boolean {
         var res = false
         withContext(ioContext) {
