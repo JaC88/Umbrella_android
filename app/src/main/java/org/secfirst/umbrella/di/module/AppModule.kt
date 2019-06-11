@@ -40,11 +40,14 @@ import org.secfirst.umbrella.data.disk.TentLoader
 import org.secfirst.umbrella.data.disk.TentRepo
 import org.secfirst.umbrella.data.disk.TentRepository
 import org.secfirst.umbrella.data.network.ApiHelper
+import org.secfirst.umbrella.data.network.MatrixApiHelper
 import org.secfirst.umbrella.data.network.NetworkEndPoint.BASE_URL
+import org.secfirst.umbrella.data.network.NetworkEndPoint.MATRIX_BASE_URL
 import org.secfirst.umbrella.data.preferences.AppPreferenceHelper
 import org.secfirst.umbrella.data.preferences.AppPreferenceHelper.Companion.PREF_NAME
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 
@@ -168,6 +171,27 @@ class NetworkModule {
     internal fun provideRetrofitInterface(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .build()
+    }
+}
+
+@Module
+class MatrixNetworkModule {
+
+    @Provides
+    @Reusable
+    internal fun provideMatrixApi(retrofit: Retrofit): MatrixApiHelper {
+        return retrofit.create(MatrixApiHelper::class.java)
+    }
+
+    @Provides
+    @Reusable
+    internal fun provideRetrofitInterface(): Retrofit {
+        return Retrofit.Builder()
+                .baseUrl(MATRIX_BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()

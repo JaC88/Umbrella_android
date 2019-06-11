@@ -198,4 +198,5 @@
     <string name="pathways_text">Select a guide to start your security journey or \nbookmark any guide for later</string>
     <string name="pathways_title">What do you need most?</string>
     <string name="see_all">See all</string>
+    <string name="chat_title">Chat</string>
 </resources>

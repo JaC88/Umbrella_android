@@ -5,9 +5,8 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody
 import org.secfirst.umbrella.di.ApiKeyInfo
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.Response
+import retrofit2.http.*
 import javax.inject.Inject
 
 /**
@@ -38,3 +37,13 @@ interface ApiHelper {
     @GET
     fun getRss(@Url url: String): Deferred<ResponseBody>
 }
+
+interface MatrixApiHelper {
+
+    @POST(NetworkEndPoint.MATRIX_REGISTER_USER)
+    fun registerUserAsync(@Header("Content-Type") content_type: String, @Body req: String): Deferred<RegisterUserResponse>
+
+    @POST(NetworkEndPoint.MATRIX_USER_LOGIN)
+    fun loginAsync(@Header("Content-Type") content_type: String, @Body req: String): Deferred<RegisterUserResponse>
+}
+

@@ -33,6 +33,20 @@ data class FeedItemResponse(
         @SerializedName("updated_at")
         var updatedAt: Long = 0) : Parcelable
 
+
+//MATRIX
+@Parcelize
+data class RegisterUserResponse(
+        @SerializedName("access_token")
+        var access_token: String = "",
+        @SerializedName("home_server")
+        var home_server: String = "",
+        @SerializedName("user_id")
+        var user_id: String = "",
+        @SerializedName("device_id")
+        var device_id: String = ""
+) : Parcelable
+
 @Retention(AnnotationRetention.RUNTIME)
 @JsonQualifier
 annotation class Wrapped

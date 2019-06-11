@@ -32,6 +32,7 @@ import org.secfirst.umbrella.data.preferences.AppPreferenceHelper.Companion.EXTR
 import org.secfirst.umbrella.data.preferences.AppPreferenceHelper.Companion.EXTRA_SHOW_MOCK_VIEW
 import org.secfirst.umbrella.data.preferences.AppPreferenceHelper.Companion.PREF_NAME
 import org.secfirst.umbrella.feature.account.view.AccountController
+import org.secfirst.umbrella.feature.chat.view.ChatController
 import org.secfirst.umbrella.feature.checklist.view.controller.HostChecklistController
 import org.secfirst.umbrella.feature.form.view.controller.HostFormController
 import org.secfirst.umbrella.feature.lesson.view.LessonController
@@ -135,10 +136,15 @@ class MainActivity : AppCompatActivity(), AdvancedSearchPresenter {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            hideKeyboard()
-            return true
+        when (item.itemId) {
+
+            android.R.id.home -> {
+                onBackPressed()
+                hideKeyboard()
+                return true
+            }
+
+            R.id.menu_account -> router.pushController(RouterTransaction.with(AccountController()))
         }
         return super.onOptionsItemSelected(item)
     }
@@ -210,7 +216,7 @@ class MainActivity : AppCompatActivity(), AdvancedSearchPresenter {
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_account -> {
-                        router.pushController(RouterTransaction.with(AccountController()))
+                        router.pushController(RouterTransaction.with(ChatController()))
                         return@OnNavigationItemSelectedListener true
                     }
                 }

@@ -8,4 +8,9 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
+    <item android:title="Account"
+        android:icon="@drawable/ic_account_box"
+        app:showAsAction="always"
+        android:id="@+id/menu_account"/>
+
 </menu>
