@@ -21,6 +21,7 @@ class AppPreferenceHelper @Inject constructor(context: Context, @PreferenceInfo 
         const val EXTRA_LANGUAGE = "language"
         const val EXTRA_SHOW_MOCK_VIEW = "extra_show_mock_view"
         const val SKIP_PATHWAYS = "skip_pathways"
+        const val MATRIX_USER = "matrix_username"
     }
 
     override fun setMockView(result: Boolean) = prefs.edit().putBoolean(EXTRA_SHOW_MOCK_VIEW, result).commit()
@@ -61,6 +62,9 @@ class AppPreferenceHelper @Inject constructor(context: Context, @PreferenceInfo 
 
     override fun getSkipPathways() = prefs.getBoolean(SKIP_PATHWAYS, false)
 
+    override fun getMatrixUsername() = prefs.getString(MATRIX_USER, "")
+
+    override fun setMatrixUsername(username: String) = prefs.edit().putString(MATRIX_USER, username).commit()
 }
 
 interface PreferenceHelper {
@@ -102,4 +106,8 @@ interface PreferenceHelper {
     fun setSkipPathways(skip: Boolean): Boolean
 
     fun getSkipPathways(): Boolean
+
+    fun getMatrixUsername(): String
+
+    fun setMatrixUsername(username: String) : Boolean
 }

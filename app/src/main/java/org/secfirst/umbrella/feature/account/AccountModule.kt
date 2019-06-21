@@ -6,10 +6,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
-import org.secfirst.umbrella.di.module.AppModule
-import org.secfirst.umbrella.di.module.NetworkModule
-import org.secfirst.umbrella.di.module.RepositoryModule
-import org.secfirst.umbrella.di.module.TentContentModule
+import org.secfirst.umbrella.di.module.*
 import org.secfirst.umbrella.feature.account.interactor.AccountBaseInteractor
 import org.secfirst.umbrella.feature.account.interactor.AccountInteractorImp
 import org.secfirst.umbrella.feature.account.presenter.AccountBasePresenter
@@ -40,6 +37,7 @@ class AccountModule {
     TentModule::class,
     TentContentModule::class,
     NetworkModule::class,
+    MatrixNetworkModule::class,
     AndroidInjectionModule::class])
 interface AccountComponent {
     @Component.Builder

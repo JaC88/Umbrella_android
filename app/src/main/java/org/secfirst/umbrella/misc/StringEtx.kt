@@ -12,6 +12,7 @@ import java.util.regex.Pattern
 const val DOWNLOAD_CHANNEL_ID = "dl_channel"
 const val DOWNLOAD_CHANNEL_NAME = "default"
 const val CHECKLIST_EXTENSION = "c_checklist.yml"
+const val MATRIX_DOMAIN = ":comms.secfirst.org"
 
 val currentTime: String
     get() {
@@ -63,4 +64,17 @@ fun String.checkPasswordStrength(context: Context): Boolean {
 fun String.removeSpecialCharacter(): String {
     val regex = Regex("[^A-Za-z0-9 ]")
     return regex.replace(this, " ")
+}
+
+fun String.toMatrixUsername(): String {
+    return "@${this.toLowerCase()}$MATRIX_DOMAIN"
+}
+
+fun String.toContactName(): String {
+    return this.replace("@", "").replace(MATRIX_DOMAIN, "").capitalize()
+}
+
+fun Long.toDate(): String {
+    val formatter = SimpleDateFormat("HH:mm:ss")
+    return formatter.format(Date(this))
 }

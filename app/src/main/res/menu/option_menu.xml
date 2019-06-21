@@ -2,15 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/search"
+    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_menu_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
-    <item android:title="Account"
-        android:icon="@drawable/ic_account_box"
-        app:showAsAction="always"
-        android:id="@+id/menu_account"/>
+    <item
+        android:id="@+id/menu_notification"
+        android:icon="@drawable/sharp_notification_important"
+        android:title="@string/account_title"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_account"
+        android:icon="@drawable/settings_icon"
+        android:title="@string/account_title"
+        app:showAsAction="always" />
 
 </menu>

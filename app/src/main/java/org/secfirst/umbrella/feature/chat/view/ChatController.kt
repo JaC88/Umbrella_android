@@ -3,8 +3,9 @@ package org.secfirst.umbrella.feature.chat.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.host_checklist.view.*
+import com.bluelinelabs.conductor.RouterTransaction
 import kotlinx.android.synthetic.main.matrix_first_screen.*
+import kotlinx.android.synthetic.main.matrix_first_screen.view.*
 import kotlinx.android.synthetic.main.matrix_register_screen.*
 import kotlinx.android.synthetic.main.matrix_register_screen.view.*
 import kotlinx.android.synthetic.main.matrix_sign_in_screen.*
@@ -16,7 +17,9 @@ import org.secfirst.umbrella.feature.base.view.BaseController
 import org.secfirst.umbrella.feature.chat.DaggerChatComponent
 import org.secfirst.umbrella.feature.chat.interactor.ChatBaseInteractor
 import org.secfirst.umbrella.feature.chat.presenter.ChatBasePresenter
+import org.secfirst.umbrella.misc.makeLinks
 import javax.inject.Inject
+
 
 class ChatController : BaseController(), ChatView {
 
@@ -44,6 +47,10 @@ class ChatController : BaseController(), ChatView {
         view.registerButton.setOnClickListener { registerUserClick() }
 
         view.signInButton.setOnClickListener { loginClick() }
+
+        view.reset_password.makeLinks(Pair(context.getString(R.string.change_password_link), View.OnClickListener {
+            println("change password")
+        }))
 
         presenter.onAttach(this)
         return view
@@ -77,4 +84,23 @@ class ChatController : BaseController(), ChatView {
     override fun showUserRegistrationError() {
         userID_error.visibility = View.VISIBLE
     }
+
+    override fun regSuccess(username: String) {
+        context.toast("Welcome $username")
+    }
+
+    override fun logInSuccess(username: String, contacts: MutableList<String>) {
+        context.toast("Welcome back $username")
+        router.pushController(RouterTransaction.with(ChatGroupController(contacts)))
+    }
+
+    override fun regError() {
+        context.toast("Error registering")
+    }
+
+    override fun logInError() {
+        context.toast("Error Login")
+    }
+
+
 }

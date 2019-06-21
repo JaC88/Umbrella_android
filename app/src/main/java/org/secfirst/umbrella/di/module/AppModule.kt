@@ -29,6 +29,9 @@ import org.secfirst.umbrella.data.database.lesson.LessonRepository
 import org.secfirst.umbrella.data.database.login.LoginDao
 import org.secfirst.umbrella.data.database.login.LoginRepo
 import org.secfirst.umbrella.data.database.login.LoginRepository
+import org.secfirst.umbrella.data.database.matrix_account.MatrixAccountDao
+import org.secfirst.umbrella.data.database.matrix_account.MatrixAccountRepo
+import org.secfirst.umbrella.data.database.matrix_account.MatrixAccountRepository
 import org.secfirst.umbrella.data.database.reader.ReaderDao
 import org.secfirst.umbrella.data.database.reader.ReaderRepo
 import org.secfirst.umbrella.data.database.reader.ReaderRepository
@@ -48,6 +51,7 @@ import org.secfirst.umbrella.data.preferences.AppPreferenceHelper.Companion.PREF
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -116,6 +120,9 @@ class RepositoryModule {
     internal val loginDao
         get() = object : LoginDao {}
 
+    internal val matrixAccountDao
+        get() = object : MatrixAccountDao {}
+
     @Provides
     @Singleton
     internal fun provideLessonDao(): LessonRepo = LessonRepository(lessonDao)
@@ -155,6 +162,10 @@ class RepositoryModule {
     @Provides
     @Singleton
     internal fun provideLoginDao(): LoginRepo = LoginRepository(loginDao)
+
+    @Provides
+    @Singleton
+    internal fun provideMatrixAccountDao(): MatrixAccountRepo = MatrixAccountRepository(matrixAccountDao)
 }
 
 @Module
@@ -162,12 +173,13 @@ class NetworkModule {
 
     @Provides
     @Reusable
-    internal fun providePostApi(retrofit: Retrofit): ApiHelper {
+    internal fun providePostApi(@Named("umbrella")retrofit: Retrofit): ApiHelper {
         return retrofit.create(ApiHelper::class.java)
     }
 
     @Provides
     @Reusable
+    @Named("umbrella")
     internal fun provideRetrofitInterface(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -182,12 +194,13 @@ class MatrixNetworkModule {
 
     @Provides
     @Reusable
-    internal fun provideMatrixApi(retrofit: Retrofit): MatrixApiHelper {
+    internal fun provideMatrixApi(@Named("matrix")retrofit: Retrofit): MatrixApiHelper {
         return retrofit.create(MatrixApiHelper::class.java)
     }
 
     @Provides
     @Reusable
+    @Named("matrix")
     internal fun provideRetrofitInterface(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(MATRIX_BASE_URL)

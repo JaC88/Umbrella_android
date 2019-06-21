@@ -86,6 +86,7 @@ class AccountController : BaseController(), AccountView {
         accountView.accountPassword.setOnClickListener { passwordAlertDialog.show() }
         accountView.accountMask.setOnClickListener { clickOnMaskApp() }
         accountView.resetPassword.setOnClickListener { resetPasswordDialog.show() }
+        accountView.matrixLogout.setOnClickListener {clickOnMatrixLogout()}
 
         passwordView.alertPasswordSkip.setOnClickListener { clickOnSkipAlert() }
         passwordView.alertPasswordOk.setOnClickListener { passwordAlertOk() }
@@ -185,6 +186,15 @@ class AccountController : BaseController(), AccountView {
 
     private fun clickOnLogout() {
         mainActivity.recreate()
+    }
+
+    private fun clickOnMatrixLogout (){
+        presenter.submitMatrixLogout()
+    }
+
+
+    override fun matrixLogout(username: String){
+        Toast.makeText(context, "Good bye $username" , Toast.LENGTH_LONG).show()
     }
 
     private fun clickOnSettings() = router.pushController(RouterTransaction.with(SettingsController()))

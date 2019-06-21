@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody
+import org.secfirst.umbrella.data.database.matrix_room.Room
 import org.secfirst.umbrella.di.ApiKeyInfo
 import retrofit2.Response
 import retrofit2.http.*
@@ -41,9 +42,32 @@ interface ApiHelper {
 interface MatrixApiHelper {
 
     @POST(NetworkEndPoint.MATRIX_REGISTER_USER)
-    fun registerUserAsync(@Header("Content-Type") content_type: String, @Body req: String): Deferred<RegisterUserResponse>
+    fun registerUserAsync(@Header(CONTENT_TYPE) content_type: String, @Body req: String): Deferred<RegisterUserResponse>
 
     @POST(NetworkEndPoint.MATRIX_USER_LOGIN)
-    fun loginAsync(@Header("Content-Type") content_type: String, @Body req: String): Deferred<RegisterUserResponse>
+    fun loginAsync(@Header(CONTENT_TYPE) content_type: String, @Body req: String): Deferred<RegisterUserResponse>
+
+    @POST(NetworkEndPoint.MATRIX_USER_LOGOUT)
+    fun logoutAsync(@Query(ACCESS_TOKEN) access_token: String): Deferred<Response<ResponseBody>>
+
+    @POST(NetworkEndPoint.MATRIX_CREATE_ROOM)
+    fun createRoomAsync(@Query(ACCESS_TOKEN) access_token: String): Deferred<Room>
+
+    @GET(NetworkEndPoint.MATRIX_JOINED_ROOMS)
+    fun retrieveJoinedRoomsAsync(@Query(ACCESS_TOKEN) access_token: String): Deferred<JoinedRoomsResponse>
+
+    @POST(NetworkEndPoint.MATRIX_SEND_MESSAGE)
+    fun sendMessageAsync(@Path("room_id") room_id: String, @Query(ACCESS_TOKEN) access_token: String, @Body req: String): Deferred<SendMessageResponse>
+
+    @GET(NetworkEndPoint.MATRIX_ROOM_MESSAGES)
+    fun getRoomMessagesAsync(@Path("room_id") room_id: String, @Query(ACCESS_TOKEN) access_token: String, @Query("from") from: String, @Query("dir") dir: String): Deferred<RoomMessageResponse>
+
+
+    companion object {
+        const val ACCESS_TOKEN = "access_token"
+        const val CONTENT_TYPE = "Content-Type"
+    }
 }
+
+
 

@@ -34,4 +34,6 @@ interface AccountView : BaseView {
     fun onChangedLanguageSuccess(){}
 
     fun onChangedLanguageFail(){}
+
+    fun matrixLogout(username: String) {}
 }

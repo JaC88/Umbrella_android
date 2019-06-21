@@ -25,10 +25,15 @@
         android:id="@+id/reset_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/grey_location"
         android:layout_margin="@dimen/font_small"
+        android:paddingStart="4dp"
         android:paddingLeft="4dp"
-        android:text="Not sure of your password? Set a new one"/>
+        android:paddingEnd="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/set_new_password_matrix"
+        android:textColor="@color/grey_location"
+        android:textColorHighlight="@color/blue"
+        android:textColorLink="@color/green_dashboard" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signInButton"
@@ -36,8 +41,8 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/text_size_larger"
-        android:layout_marginRight="@dimen/text_size_larger"
         android:layout_marginTop="@dimen/recycler_view_margin_bottom"
+        android:layout_marginRight="@dimen/text_size_larger"
         android:background="@color/umbrella_green"
         android:text="Sign In"
         android:textColor="@color/white" />

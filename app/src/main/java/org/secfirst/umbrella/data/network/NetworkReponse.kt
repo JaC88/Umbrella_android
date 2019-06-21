@@ -47,6 +47,47 @@ data class RegisterUserResponse(
         var device_id: String = ""
 ) : Parcelable
 
+data class RoomJoinedMembersResponse(@SerializedName("joined")
+                                     var joined: Map<String, RoomMember>)
+
+data class RoomMember(@SerializedName("avatar_url")
+                      var avatar_url: String = "",
+                      @SerializedName("display_name")
+                      var display_name: String = "")
+
+data class JoinedRoomsResponse(@SerializedName("joined_rooms")
+                               var joined_rooms: MutableList<String> = mutableListOf())
+
+data class SendMessageResponse(@SerializedName("event_id")
+                               var event_id: String = "")
+
+//data class RoomMessagesResponse(@SerializedName("chunk")
+//                                var chunkList: List<ChunkValue> = listOf(),
+//                                @SerializedName("start")
+//                                var start: String = "",
+//                                @SerializedName("end")
+//                                var end: String = ""
+//)
+//
+//data class ChunkValue(@SerializedName("type")
+//                      var type: String = "",
+//                      @SerializedName("room_id")
+//                      var room_id: String = "",
+//                      @SerializedName("sender")
+//                      var sender: String = "",
+//                      @SerializedName("content")
+//                      var content: MessageContent = MessageContent("", ""),
+//                      @SerializedName("age")
+//                      var age: Int = 0
+//)
+//
+//data class MessageContent(@SerializedName("msgtype")
+//                          var msgtype: String = "",
+//                          @SerializedName("body")
+//                          var body: String = "")
+
+
+
 @Retention(AnnotationRetention.RUNTIME)
 @JsonQualifier
 annotation class Wrapped

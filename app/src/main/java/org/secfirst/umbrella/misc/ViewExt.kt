@@ -34,6 +34,14 @@ fun RecyclerView.initRecyclerView(adapter: RecyclerView.Adapter<out RecyclerView
     setHasFixedSize(hasFixedSize)
 }
 
+fun RecyclerView.initHorizontalRecyclerView(adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
+                                            layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false),
+                                            hasFixedSize: Boolean = true) {
+    this.layoutManager = layoutManager
+    this.adapter = adapter
+    setHasFixedSize(hasFixedSize)
+}
+
 fun BaseController.hideKeyboard() {
     val inputMethodManager = this.activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(this.view?.windowToken, 0)

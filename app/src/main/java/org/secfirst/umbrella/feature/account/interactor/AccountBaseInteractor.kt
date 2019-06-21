@@ -1,8 +1,12 @@
 package org.secfirst.umbrella.feature.account.interactor
 
+import kotlinx.coroutines.Deferred
+import okhttp3.ResponseBody
+import org.secfirst.umbrella.data.database.matrix_account.Account
 import org.secfirst.umbrella.data.database.reader.FeedLocation
 import org.secfirst.umbrella.data.database.reader.FeedSource
 import org.secfirst.umbrella.feature.base.interactor.BaseInteractor
+import retrofit2.Response
 
 interface AccountBaseInteractor : BaseInteractor {
 
@@ -26,9 +30,19 @@ interface AccountBaseInteractor : BaseInteractor {
 
     fun isMaskApp(): Boolean
 
-    fun setFakeView(isShowFakeView: Boolean) : Boolean
+    fun setFakeView(isShowFakeView: Boolean): Boolean
 
-    fun getMaskApp() : Boolean
+    fun getMaskApp(): Boolean
 
-    suspend fun serializeNewContent(path : String) : Boolean
+    suspend fun serializeNewContent(path: String): Boolean
+
+    suspend fun matrixLogout(access_token: String): Deferred<Response<ResponseBody>>
+
+    suspend fun saveAccount(account: Account)
+
+    suspend fun fetchAccount(username: String): Account?
+
+    fun setMatrixUsername(username: String): Boolean
+
+    fun getMatrixUsername(): String
 }

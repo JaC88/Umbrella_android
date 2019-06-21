@@ -19,8 +19,8 @@ class AccountPresenterImp<V : AccountView, I : AccountBaseInteractor> @Inject co
         interactor = interactor), AccountBasePresenter<V, I> {
 
 
-    override  fun changeContentLanguage(path: String) {
-        launchSilent (uiContext) {
+    override fun changeContentLanguage(path: String) {
+        launchSilent(uiContext) {
             interactor?.let {
                 if (it.serializeNewContent(path)) {
                     getView()?.onChangedLanguageSuccess()
@@ -164,6 +164,25 @@ class AccountPresenterImp<V : AccountView, I : AccountBaseInteractor> @Inject co
                     it.enablePasswordBanner(false)
                 }
                 getView()?.isTokenChanged(res)
+            }
+        }
+    }
+
+    override fun submitMatrixLogout() {
+        launchSilent(uiContext) {
+            interactor?.let {
+                val account = it.fetchAccount(it.getMatrixUsername())
+                if (account != null) {
+                    val response = it.matrixLogout(account.access_token).await()
+                    if (response.isSuccessful) {
+                        account.access_token = ""
+                        account.isLoggedIn = false
+                        it.saveAccount(account)
+                        it.setMatrixUsername("")
+                        getView()?.matrixLogout(account.username)
+                    }
+                }
+
             }
         }
     }

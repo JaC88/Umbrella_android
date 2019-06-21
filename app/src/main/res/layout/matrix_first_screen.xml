@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,11 +13,23 @@
         android:theme="@style/ToolBarTheme"
         app:titleTextColor="@color/white" />
 
-    <include layout="@layout/matrix_register_screen"
-        android:id="@+id/matrix_register"
-        />
-    <include layout="@layout/matrix_sign_in_screen"
-        android:id="@+id/matrix_sign_in"
-        android:visibility="gone"/>
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/matrix_register"
+                layout="@layout/matrix_register_screen"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/matrix_sign_in"
+                layout="@layout/matrix_sign_in_screen" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

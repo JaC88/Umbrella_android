@@ -8,4 +8,9 @@ object NetworkEndPoint {
     const val MATRIX_BASE_URL = "https://comms.secfirst.org/"
     const val MATRIX_REGISTER_USER = "_matrix/client/r0/register"
     const val MATRIX_USER_LOGIN = "_matrix/client/r0/login"
+    const val MATRIX_USER_LOGOUT = "_matrix/client/r0/logout"
+    const val MATRIX_CREATE_ROOM = "_matrix/client/r0/createRoom"
+    const val MATRIX_JOINED_ROOMS = "_matrix/client/r0/joined_rooms"
+    const val MATRIX_SEND_MESSAGE = "_matrix/client/r0/rooms/{room_id}/send/m.room.message"
+    const val MATRIX_ROOM_MESSAGES = "_matrix/client/r0/rooms/{room_id}/messages"
 }

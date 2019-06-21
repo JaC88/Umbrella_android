@@ -14,6 +14,8 @@ import org.secfirst.umbrella.feature.chat.interactor.ChatInteractorImp
 import org.secfirst.umbrella.feature.chat.presenter.ChatBasePresenter
 import org.secfirst.umbrella.feature.chat.presenter.ChatPresenterImp
 import org.secfirst.umbrella.feature.chat.view.ChatController
+import org.secfirst.umbrella.feature.chat.view.ChatGroupController
+import org.secfirst.umbrella.feature.chat.view.ChatRoomController
 import org.secfirst.umbrella.feature.chat.view.ChatView
 import javax.inject.Singleton
 
@@ -46,5 +48,9 @@ interface ChatComponent {
     }
 
     fun inject(chatController: ChatController)
+
+    fun inject(chatGroupController: ChatGroupController)
+
+    fun inject(chatRoomController: ChatRoomController)
 
 }

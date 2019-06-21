@@ -19,7 +19,15 @@ open class BaseInteractorImp() : BaseInteractor {
         this.contentRepo = contentRepo
     }
 
-    constructor(matrixApiHelper: MatrixApiHelper) : this() {
+    constructor(preferenceHelper: AppPreferenceHelper, matrixApiHelper: MatrixApiHelper) : this() {
+        this.preferenceHelper = preferenceHelper
+        this.matrixApiHelper = matrixApiHelper
+    }
+
+    constructor(apiHelper: ApiHelper, preferenceHelper: AppPreferenceHelper, contentRepo: ContentRepo, matrixApiHelper: MatrixApiHelper): this(){
+        this.apiHelper = apiHelper
+        this.preferenceHelper = preferenceHelper
+        this.contentRepo = contentRepo
         this.matrixApiHelper = matrixApiHelper
     }
 

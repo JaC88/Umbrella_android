@@ -9,4 +9,8 @@ interface ChatBasePresenter<V : ChatView, I : ChatBaseInteractor> : BasePresente
     fun submitRegisterUser(username: String, password: String, email: String)
 
     fun submitLogin(username: String, password: String)
+
+    fun submitShowRoomMessages(room_id: String)
+
+    fun submitSendMessage(room_id: String, body: String)
 }

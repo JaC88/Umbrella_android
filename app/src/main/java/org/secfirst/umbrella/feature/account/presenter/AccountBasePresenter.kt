@@ -47,4 +47,6 @@ interface AccountBasePresenter<V : AccountView, I : AccountBaseInteractor> : Bas
     fun submitIsMaskApp()
 
     fun  changeContentLanguage(path : String)
+
+    fun submitMatrixLogout()
 }
