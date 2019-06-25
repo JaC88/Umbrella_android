@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.matrix_sign_in_screen.view.*
 import org.jetbrains.anko.toast
 import org.secfirst.umbrella.R
 import org.secfirst.umbrella.UmbrellaApplication
+import org.secfirst.umbrella.data.network.Chunk
 import org.secfirst.umbrella.feature.base.view.BaseController
 import org.secfirst.umbrella.feature.chat.DaggerChatComponent
 import org.secfirst.umbrella.feature.chat.interactor.ChatBaseInteractor
@@ -25,6 +26,7 @@ class ChatController : BaseController(), ChatView {
 
     @Inject
     internal lateinit var presenter: ChatBasePresenter<ChatView, ChatBaseInteractor>
+    private lateinit var notifications: MutableList<Chunk>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.matrix_first_screen, container, false)
@@ -54,6 +56,13 @@ class ChatController : BaseController(), ChatView {
 
         presenter.onAttach(this)
         return view
+    }
+
+    override fun onAttach(view: View) {
+        println(presenter.isLoggedIn())
+        if (presenter.isLoggedIn())
+            router.pushController(RouterTransaction.with(ChatGroupController()))
+        super.onAttach(view)
     }
 
     override fun onInject() {
@@ -89,9 +98,11 @@ class ChatController : BaseController(), ChatView {
         context.toast("Welcome $username")
     }
 
-    override fun logInSuccess(username: String, contacts: MutableList<String>) {
-        context.toast("Welcome back $username")
-        router.pushController(RouterTransaction.with(ChatGroupController(contacts)))
+    override fun logInSuccess(username: String, contacts: MutableList<String>, notifications: MutableList<Chunk>) {
+        this.notifications = notifications
+        if (notifications.isNotEmpty())
+            context.toast("You have ${notifications.size} new invites")
+        router.pushController(RouterTransaction.with(ChatGroupController()))
     }
 
     override fun regError() {

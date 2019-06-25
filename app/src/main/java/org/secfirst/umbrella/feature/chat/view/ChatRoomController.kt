@@ -47,7 +47,13 @@ class ChatRoomController(bundle: Bundle) : BaseController(bundle), ChatView {
     }
 
     override fun onAttach(view: View) {
+        mainActivity.hideNavigation()
+        super.onAttach(view)
+    }
 
+    override fun onDetach(view: View) {
+        mainActivity.showNavigation()
+        super.onDetach(view)
     }
 
     override fun showRoomMessages(messageList: List<Chunk>, user: String) {

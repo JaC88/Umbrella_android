@@ -61,31 +61,13 @@ data class JoinedRoomsResponse(@SerializedName("joined_rooms")
 data class SendMessageResponse(@SerializedName("event_id")
                                var event_id: String = "")
 
-//data class RoomMessagesResponse(@SerializedName("chunk")
-//                                var chunkList: List<ChunkValue> = listOf(),
-//                                @SerializedName("start")
-//                                var start: String = "",
-//                                @SerializedName("end")
-//                                var end: String = ""
-//)
-//
-//data class ChunkValue(@SerializedName("type")
-//                      var type: String = "",
-//                      @SerializedName("room_id")
-//                      var room_id: String = "",
-//                      @SerializedName("sender")
-//                      var sender: String = "",
-//                      @SerializedName("content")
-//                      var content: MessageContent = MessageContent("", ""),
-//                      @SerializedName("age")
-//                      var age: Int = 0
-//)
-//
-//data class MessageContent(@SerializedName("msgtype")
-//                          var msgtype: String = "",
-//                          @SerializedName("body")
-//                          var body: String = "")
+data class CreatRoomResponse(@SerializedName("room_id")
+                             var room_id: String = "",
+                             @SerializedName("room_alias")
+                             var room_alias: String = "")
 
+data class UploadFileResponse(@SerializedName("content_uri")
+                              var content_uri: String = "")
 
 
 @Retention(AnnotationRetention.RUNTIME)

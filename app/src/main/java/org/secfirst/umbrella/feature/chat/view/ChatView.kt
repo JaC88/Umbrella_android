@@ -9,11 +9,13 @@ interface ChatView : BaseView {
 
     fun regSuccess(username: String) {}
 
-    fun logInSuccess(username: String, contacts: MutableList<String>) {}
+    fun logInSuccess(username: String, contacts: MutableList<String>, notifications: MutableList<Chunk>) {}
 
     fun regError() {}
 
     fun logInError() {}
 
     fun showRoomMessages(messageList: List<Chunk>, user: String) {}
+
+    fun showContacts(contacts: MutableList<String>) {}
 }

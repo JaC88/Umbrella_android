@@ -200,3 +200,18 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
     this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
+
+fun copyStreamToFile(inputStream: InputStream, outputFile: File) {
+    inputStream.use { inputStream ->
+        val outputStream = FileOutputStream(outputFile)
+        outputStream.use { outputStream ->
+            val buffer = ByteArray(4 * 1024) // buffer size
+            while (true) {
+                val byteCount = inputStream.read(buffer)
+                if (byteCount < 0) break
+                outputStream.write(buffer, 0, byteCount)
+            }
+            outputStream.flush()
+        }
+    }
+}

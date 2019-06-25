@@ -9,4 +9,6 @@ class MatrixAccountRepository @Inject constructor(private val matrixAccountDao: 
     override suspend fun deleteAccount(account: Account) = matrixAccountDao.delete(account)
 
     override suspend fun loadAccount(username: String) = matrixAccountDao.getAccount(username)
+
+    override suspend fun insertRoom(room: Room) = matrixAccountDao.saveRoom(room)
 }

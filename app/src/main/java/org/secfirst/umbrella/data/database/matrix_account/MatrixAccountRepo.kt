@@ -7,4 +7,6 @@ interface MatrixAccountRepo {
     suspend fun deleteAccount(account:Account)
 
     suspend fun loadAccount(username: String) : Account?
+
+    suspend fun insertRoom(room:Room)
 }

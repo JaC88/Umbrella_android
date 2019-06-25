@@ -25,4 +25,10 @@ interface MatrixAccountDao {
                 .where(Account_Table.username.`is`(username))
                 .querySingle()
     }
+
+    suspend fun saveRoom(room: Room) {
+        withContext(ioContext) {
+            modelAdapter<Room>().save(room)
+        }
+    }
 }

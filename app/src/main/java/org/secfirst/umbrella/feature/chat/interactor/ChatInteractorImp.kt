@@ -1,11 +1,16 @@
 package org.secfirst.umbrella.feature.chat.interactor
 
+import okhttp3.MultipartBody
 import org.secfirst.umbrella.data.database.matrix_account.Account
 import org.secfirst.umbrella.data.database.matrix_account.MatrixAccountRepo
-import org.secfirst.umbrella.data.database.matrix_room.Room
-import org.secfirst.umbrella.data.network.*
+import org.secfirst.umbrella.data.database.matrix_account.Room
+import org.secfirst.umbrella.data.network.MatrixApiHelper
+import org.secfirst.umbrella.data.network.loginUserRequest
+import org.secfirst.umbrella.data.network.registerUserRequest
+import org.secfirst.umbrella.data.network.sendMessageRequest
 import org.secfirst.umbrella.data.preferences.AppPreferenceHelper
 import org.secfirst.umbrella.feature.base.interactor.BaseInteractorImp
+import java.io.File
 import javax.inject.Inject
 
 class ChatInteractorImp @Inject constructor(appPreferenceHelper: AppPreferenceHelper,
@@ -16,9 +21,7 @@ class ChatInteractorImp @Inject constructor(appPreferenceHelper: AppPreferenceHe
 
     override suspend fun login(username: String, password: String) = matrixApiHelper.loginAsync("application/json", loginUserRequest(username, password))
 
-    override suspend fun saveRoom(room: Room) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override suspend fun saveRoom(room: Room) = matrixAccountRepo.insertRoom(room)
 
     override suspend fun getJoinedRooms(access_token: String) = matrixApiHelper.retrieveJoinedRoomsAsync(access_token)
 
@@ -30,7 +33,15 @@ class ChatInteractorImp @Inject constructor(appPreferenceHelper: AppPreferenceHe
 
     override suspend fun sendMessage(room_id: String, access_token: String, body: String) = matrixApiHelper.sendMessageAsync(room_id, access_token, sendMessageRequest("m.text", body))
 
-    override suspend fun getRoomMessages(access_token: String, room_id: String, from: String, dir: String) = matrixApiHelper.getRoomMessagesAsync(room_id, access_token, from, dir)
+    override suspend fun getRoomMessages(access_token: String, room_id: String, from: String?, dir: String, limit: Int) = matrixApiHelper.getRoomMessagesAsync(room_id, access_token, from, dir, limit)
+
+    override suspend fun createRoom(access_token: String, body: String) = matrixApiHelper.createRoomAsync(access_token, body)
+
+    override suspend fun getUserNews(access_token: String, since: String?) = matrixApiHelper.getUserNewsAsync(access_token, since)
+
+    override suspend fun uploadFile(content_type: String, access_token: String, filename: String, file: MultipartBody.Part) = matrixApiHelper.uploadFileAsync(content_type, access_token, filename, file)
+
+    override suspend fun downloadFile(serverName: String, mediaId: String) = matrixApiHelper.downloadFileAsync(serverName, mediaId)
 
     override fun setMatrixUsername(username: String) = preferenceHelper.setMatrixUsername(username)
 

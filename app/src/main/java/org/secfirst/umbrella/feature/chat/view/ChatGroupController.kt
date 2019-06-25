@@ -1,11 +1,9 @@
 package org.secfirst.umbrella.feature.chat.view
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bluelinelabs.conductor.RouterTransaction
-import kotlinx.android.synthetic.main.host_checklist.view.*
 import kotlinx.android.synthetic.main.host_checklist.view.toolbar
 import kotlinx.android.synthetic.main.matrix_chat_group_view.*
 import kotlinx.android.synthetic.main.matrix_chat_group_view.view.*
@@ -19,17 +17,17 @@ import org.secfirst.umbrella.feature.chat.view.adapter.ChatGroupAdapter
 import org.secfirst.umbrella.misc.initHorizontalRecyclerView
 import javax.inject.Inject
 
-class ChatGroupController(bundle: Bundle) : BaseController(bundle), ChatView {
+class ChatGroupController() : BaseController(), ChatView {
 
     @Inject
     internal lateinit var presenter: ChatBasePresenter<ChatView, ChatBaseInteractor>
     private lateinit var adapter: ChatGroupAdapter
-    private val contacts by lazy { args.getStringArrayList("contacts") }
+    //    private val contacts by lazy { args.getStringArrayList("contacts") }
     private val onContactClick: (String) -> Unit = this::onContactClick
 
-    constructor(contacts: MutableList<String>) : this(Bundle().apply {
-        putStringArrayList("contacts", ArrayList(contacts))
-    })
+//    constructor(contacts: MutableList<String>) : this(Bundle().apply {
+//        putStringArrayList("contacts", ArrayList(contacts))
+//    })
 
     override fun onInject() {
         DaggerChatComponent.builder()
@@ -52,6 +50,12 @@ class ChatGroupController(bundle: Bundle) : BaseController(bundle), ChatView {
     }
 
     override fun onAttach(view: View) {
+        presenter.submitUploadFile(context)
+        presenter.submitLoadContacts()
+        super.onAttach(view)
+    }
+
+    override fun showContacts(contacts: MutableList<String>) {
         adapter = ChatGroupAdapter(contacts, onContactClick)
         chat_group_recyclerView?.initHorizontalRecyclerView(adapter)
     }
@@ -60,7 +64,7 @@ class ChatGroupController(bundle: Bundle) : BaseController(bundle), ChatView {
         router.pushController(RouterTransaction.with(ChatRoomController(room_id)))
     }
 
-    private fun addContact(){
-
+    private fun addContact() {
+        presenter.submitCreateRoom("Ola")
     }
 }

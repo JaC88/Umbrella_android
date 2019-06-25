@@ -13,4 +13,7 @@ object NetworkEndPoint {
     const val MATRIX_JOINED_ROOMS = "_matrix/client/r0/joined_rooms"
     const val MATRIX_SEND_MESSAGE = "_matrix/client/r0/rooms/{room_id}/send/m.room.message"
     const val MATRIX_ROOM_MESSAGES = "_matrix/client/r0/rooms/{room_id}/messages"
+    const val MATRIX_SYNC = "_matrix/client/r0/sync"
+    const val MATRIX_UPLOAD_FILE = "_matrix/media/r0/upload"
+    const val MATRIX_DOWNLOAD_FILE = "_matrix/media/r0/download/{serverName}/{mediaId}"
 }
