@@ -54,7 +54,7 @@ interface MatrixApiHelper {
 
     @POST(NetworkEndPoint.MATRIX_CREATE_ROOM)
     fun createRoomAsync(@Query(ACCESS_TOKEN) access_token: String,
-                        @Body req: String): Deferred<CreatRoomResponse>
+                        @Body req: String): Deferred<CreateRoomResponse>
 
     @GET(NetworkEndPoint.MATRIX_JOINED_ROOMS)
     fun retrieveJoinedRoomsAsync(@Query(ACCESS_TOKEN) access_token: String): Deferred<JoinedRoomsResponse>
@@ -70,6 +70,14 @@ interface MatrixApiHelper {
                              @Query("from") from: String?,
                              @Query("dir") dir: String,
                              @Query("limit") limit: Int): Deferred<RoomMessageResponse>
+
+    @GET(NetworkEndPoint.MATRIX_ROOM_JOINED_MEMBERS)
+    fun getRoomMembersAsync(@Path("room_id") room_id: String,
+                            @Query(ACCESS_TOKEN) access_token: String): Deferred<RoomJoinedMembersResponse>
+
+    @POST(NetworkEndPoint.MATRIX_JOIN_ROOM)
+    fun joinRoomAsync(@Path("room_id") room_id: String,
+                      @Query(ACCESS_TOKEN) access_token: String): Deferred<CreateRoomResponse>
 
     @GET(NetworkEndPoint.MATRIX_SYNC)
     fun getUserNewsAsync(@Query(ACCESS_TOKEN) access_token: String,

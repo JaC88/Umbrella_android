@@ -61,7 +61,7 @@ data class JoinedRoomsResponse(@SerializedName("joined_rooms")
 data class SendMessageResponse(@SerializedName("event_id")
                                var event_id: String = "")
 
-data class CreatRoomResponse(@SerializedName("room_id")
+data class CreateRoomResponse(@SerializedName("room_id")
                              var room_id: String = "",
                              @SerializedName("room_alias")
                              var room_alias: String = "")

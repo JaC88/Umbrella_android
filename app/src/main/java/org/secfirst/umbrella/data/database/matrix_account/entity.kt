@@ -48,3 +48,13 @@ data class Room(@PrimaryKey
                 var invite: MutableList<String> = mutableListOf(),
                 @Column(typeConverter = StringListConverter::class)
                 var joinedMembers: MutableList<String> = mutableListOf())
+
+
+data class Contact(
+        var id: Int,
+
+        var room_id: String = "",
+
+        var account: Account? = null,
+
+        var name: String = "")

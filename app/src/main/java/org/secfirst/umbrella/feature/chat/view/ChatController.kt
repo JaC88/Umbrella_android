@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.matrix_sign_in_screen.view.*
 import org.jetbrains.anko.toast
 import org.secfirst.umbrella.R
 import org.secfirst.umbrella.UmbrellaApplication
+import org.secfirst.umbrella.data.database.matrix_account.Contact
 import org.secfirst.umbrella.data.network.Chunk
 import org.secfirst.umbrella.feature.base.view.BaseController
 import org.secfirst.umbrella.feature.chat.DaggerChatComponent
@@ -59,7 +60,6 @@ class ChatController : BaseController(), ChatView {
     }
 
     override fun onAttach(view: View) {
-        println(presenter.isLoggedIn())
         if (presenter.isLoggedIn())
             router.pushController(RouterTransaction.with(ChatGroupController()))
         super.onAttach(view)
@@ -98,7 +98,7 @@ class ChatController : BaseController(), ChatView {
         context.toast("Welcome $username")
     }
 
-    override fun logInSuccess(username: String, contacts: MutableList<String>, notifications: MutableList<Chunk>) {
+    override fun logInSuccess(username: String, notifications: MutableList<Chunk>) {
         this.notifications = notifications
         if (notifications.isNotEmpty())
             context.toast("You have ${notifications.size} new invites")

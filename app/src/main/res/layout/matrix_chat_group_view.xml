@@ -14,20 +14,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/white" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/contacts_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Contacts"
+            android:textSize="20sp"
+            android:textColor="@color/grey_location" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_group_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:layout_below="@+id/contacts_title"/>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

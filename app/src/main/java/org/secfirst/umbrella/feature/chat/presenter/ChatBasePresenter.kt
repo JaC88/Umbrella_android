@@ -4,6 +4,7 @@ import android.content.Context
 import org.secfirst.umbrella.feature.base.presenter.BasePresenter
 import org.secfirst.umbrella.feature.chat.interactor.ChatBaseInteractor
 import org.secfirst.umbrella.feature.chat.view.ChatView
+import java.io.File
 
 interface ChatBasePresenter<V : ChatView, I : ChatBaseInteractor> : BasePresenter<V, I> {
 
@@ -13,7 +14,7 @@ interface ChatBasePresenter<V : ChatView, I : ChatBaseInteractor> : BasePresente
 
     fun submitShowRoomMessages(room_id: String)
 
-    fun submitSendMessage(room_id: String, body: String)
+    fun submitSendMessage(room_id: String, body: String, uriMCX: String, type: String)
 
     fun submitCreateRoom(contactName: String)
 
@@ -21,5 +22,9 @@ interface ChatBasePresenter<V : ChatView, I : ChatBaseInteractor> : BasePresente
 
     fun submitLoadContacts()
 
-    fun submitUploadFile(context: Context)
+    fun submitUploadFile(file: File, context: Context)
+
+    fun submitDownloadFile(context: Context, uriMCX: String)
+
+    fun submitLoadItemToShare()
 }

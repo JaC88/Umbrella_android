@@ -1,5 +1,6 @@
 package org.secfirst.umbrella.feature.chat.view.adapter
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,9 @@ import org.secfirst.umbrella.misc.toContactName
 import org.secfirst.umbrella.misc.toDate
 import org.secfirst.umbrella.misc.toMatrixUsername
 
-class ChatRoomAdapter(private val messageList: List<Chunk>, private val user: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatRoomAdapter(private val messageList: List<Chunk>,
+                      private val user: String,
+                      private val messageClick: (Chunk) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return if (messageList[position].sender.equals(user.toMatrixUsername())) VIEW_TYPE_MESSAGE_SENT
@@ -42,29 +45,39 @@ class ChatRoomAdapter(private val messageList: List<Chunk>, private val user: St
         when (holder.itemViewType) {
             VIEW_TYPE_MESSAGE_RECEIVED -> {
                 holder as ReceivedMessageHolder
-                holder.bind(messageList[position].sender.toContactName(), messageList[position].content.body, messageList[position].origin_server_ts.toDate())
+                holder.bind(messageList[position], clickListener = { messageClick(messageList[position]) })
             }
             VIEW_TYPE_MESSAGE_SENT -> {
                 holder as SentMessageHolder
-                holder.bind(messageList[position].content.body, messageList[position].origin_server_ts.toDate())
+                holder.bind(messageList[position], clickListener = { messageClick(messageList[position]) })
             }
         }
     }
 
     class SentMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(message: String, time: String) {
-            itemView.text_message_body.text = message
-            itemView.text_message_time.text = time
+        fun bind(message: Chunk, clickListener: (SentMessageHolder) -> Unit) {
+            with(message) {
+                itemView.text_message_body.text = this.content.body
+                itemView.text_message_time.text = this.origin_server_ts.toDate()
+                if (message.content.msgtype == "m.file")
+                    itemView.text_message_body.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                    itemView.setOnClickListener { clickListener(this@SentMessageHolder) }
+            }
         }
-
     }
 
     class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(name: String, message: String, time: String) {
-            itemView.text_message_name.text = name
-            itemView.text_message_body.text = message
-            itemView.text_message_time.text = time
+        fun bind(message: Chunk, clickListener: (ReceivedMessageHolder) -> Unit) {
+            with(message) {
+                itemView.text_message_name.text = this.sender.toContactName()
+                itemView.text_message_body.text = this.content.body
+                itemView.text_message_time.text = this.origin_server_ts.toDate()
+                if (message.content.msgtype == "m.file") {
+                    itemView.text_message_body.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                    itemView.setOnClickListener { clickListener(this@ReceivedMessageHolder) }
+                }
+            }
         }
     }
 

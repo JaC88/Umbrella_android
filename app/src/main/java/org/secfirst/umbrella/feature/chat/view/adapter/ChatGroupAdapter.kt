@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.matrix_contact_item.view.*
 import org.secfirst.umbrella.R
+import org.secfirst.umbrella.data.database.matrix_account.Contact
 
-class ChatGroupAdapter(private val contacts: MutableList<String>,
-                       private val onContactClicked: (String) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatGroupAdapter(private val contacts: MutableList<Contact>,
+                       private val onContactClicked: (Contact) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int = contacts.size
 
@@ -25,11 +26,11 @@ class ChatGroupAdapter(private val contacts: MutableList<String>,
 
     class ChatGroupHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(contact: String, clickListener: (ChatGroupHolder) -> Unit) {
+        fun bind(contact: Contact, clickListener: (ChatGroupHolder) -> Unit) {
 
             with(contact) {
-                itemView.contact_name.text = this
-                itemView.contact_title.text = this[0].toString().capitalize()
+                itemView.contact_name.text = this.name
+                itemView.contact_title.text = this.name[0].toString().capitalize()
                 itemView.contact.setOnClickListener { clickListener(this@ChatGroupHolder) }
             }
 

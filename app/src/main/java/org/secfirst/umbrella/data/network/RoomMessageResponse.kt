@@ -38,7 +38,11 @@ data class Chunk(
 data class Content(@SerializedName("msgtype")
                    var msgtype: String = "",
                    @SerializedName("body")
-                   var body: String = "")
+                   var body: String = "",
+                   @SerializedName("alias")
+                   var alias: String = "",
+                   @SerializedName("url")
+                   var url: String = "")
 
 data class Unsigned(
         @SerializedName("age")

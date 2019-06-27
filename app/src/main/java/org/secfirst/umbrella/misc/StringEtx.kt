@@ -12,7 +12,8 @@ import java.util.regex.Pattern
 const val DOWNLOAD_CHANNEL_ID = "dl_channel"
 const val DOWNLOAD_CHANNEL_NAME = "default"
 const val CHECKLIST_EXTENSION = "c_checklist.yml"
-const val MATRIX_DOMAIN = ":comms.secfirst.org"
+const val MATRIX_DOMAIN = "comms.secfirst.org"
+const val MATRIX_MCX = "mxc://"
 
 val currentTime: String
     get() {
@@ -67,11 +68,19 @@ fun String.removeSpecialCharacter(): String {
 }
 
 fun String.toMatrixUsername(): String {
-    return "@${this.toLowerCase()}$MATRIX_DOMAIN"
+    return "@${this.toLowerCase()}:$MATRIX_DOMAIN"
 }
 
 fun String.toContactName(): String {
-    return this.replace("@", "").replace(MATRIX_DOMAIN, "").capitalize()
+    return this.replace("@", "").replace(":$MATRIX_DOMAIN", "").capitalize()
+}
+
+fun String.toRoomContactName(user: String): String {
+    return this.replace("#", "").replace(":$MATRIX_DOMAIN", "").replace("_", "").replace(user, "")
+}
+
+fun String.toMediaId() : String {
+    return this.replace(MATRIX_MCX, "").replace("$MATRIX_DOMAIN/", "")
 }
 
 fun Long.toDate(): String {

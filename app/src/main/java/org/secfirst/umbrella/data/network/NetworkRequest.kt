@@ -22,18 +22,20 @@ fun loginUserRequest(username: String, password: String): String {
     return req.toString()
 }
 
-fun sendMessageRequest(msgtype: String, body: String): String {
+fun sendMessageRequest(msgtype: String, body: String, url: String): String {
     val req = JSONObject()
     req.put("msgtype", msgtype)
     req.put("body", body)
+    if (msgtype == "m.file")
+        req.put("url", url)
     return req.toString()
 }
 
-fun createRoomRequest(name: String): String {
+fun createRoomRequest(name: String, contact: String): String {
     val req = JSONObject()
     req.put("preset", "private_chat")
     req.put("room_alias_name", name)
-    req.put("invite", JSONArray(listOf(name.toMatrixUsername())))
+    req.put("invite", JSONArray(listOf(contact.toMatrixUsername())))
     return req.toString()
 }
 

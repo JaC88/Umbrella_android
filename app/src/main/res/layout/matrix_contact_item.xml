@@ -6,8 +6,8 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/contact_title"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/circle"
         android:gravity="center"
         android:text="T"
@@ -16,9 +16,10 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/contact_name"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/contact_title"
+        android:textSize="@dimen/font_small"
         android:gravity="center"
         android:text="Tao"/>
 
