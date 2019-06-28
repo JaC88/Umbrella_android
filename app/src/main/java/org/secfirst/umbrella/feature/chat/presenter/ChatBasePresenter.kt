@@ -1,6 +1,7 @@
 package org.secfirst.umbrella.feature.chat.presenter
 
 import android.content.Context
+import org.secfirst.umbrella.data.database.form.ActiveForm
 import org.secfirst.umbrella.feature.base.presenter.BasePresenter
 import org.secfirst.umbrella.feature.chat.interactor.ChatBaseInteractor
 import org.secfirst.umbrella.feature.chat.view.ChatView
@@ -26,5 +27,7 @@ interface ChatBasePresenter<V : ChatView, I : ChatBaseInteractor> : BasePresente
 
     fun submitDownloadFile(context: Context, uriMCX: String)
 
-    fun submitLoadItemToShare()
+    fun submitLoadItemToShare(type: String)
+
+    fun submitShareForm(activeForm: ActiveForm, context: Context)
 }

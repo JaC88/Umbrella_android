@@ -5,6 +5,8 @@ import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.secfirst.umbrella.data.database.checklist.Checklist
 import org.secfirst.umbrella.data.database.difficulty.Difficulty
+import org.secfirst.umbrella.data.database.form.ActiveForm
+import org.secfirst.umbrella.data.database.form.Form
 import org.secfirst.umbrella.data.database.lesson.Subject
 import org.secfirst.umbrella.data.database.matrix_account.Account
 import org.secfirst.umbrella.data.database.matrix_account.Room
@@ -51,6 +53,10 @@ interface ChatBaseInteractor : BaseInteractor {
     suspend fun fetchSubjectById(subjectId: String): Subject?
 
     suspend fun fetchDifficultyById(difficultyId: String): Difficulty?
+
+    suspend fun fetchActiveForms(): List<ActiveForm>
+
+    suspend fun fetchModalForms(): List<Form>
 
     fun setMatrixUsername(username: String): Boolean
 

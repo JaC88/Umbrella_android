@@ -13,7 +13,7 @@ import javax.inject.Inject
 class VirtualStorage @Inject constructor(private val application: Application) {
 
     suspend fun mountFilesystem(document: String, fileName: String): File {
-        val file = File(application.cacheDir, "$fileName.html")
+        val file = File(application.cacheDir, fileName + "_${System.currentTimeMillis() / 1000}.html")
         withContext(AppExecutors.ioContext) {
             if (!file.exists()) file.createNewFile()
             val virtualSystem = VirtualFileSystem.get()

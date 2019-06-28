@@ -3,6 +3,9 @@ package org.secfirst.umbrella.feature.chat.interactor
 import okhttp3.MultipartBody
 import org.secfirst.umbrella.data.database.checklist.Checklist
 import org.secfirst.umbrella.data.database.checklist.ChecklistRepo
+import org.secfirst.umbrella.data.database.form.ActiveForm
+import org.secfirst.umbrella.data.database.form.Form
+import org.secfirst.umbrella.data.database.form.FormRepo
 import org.secfirst.umbrella.data.database.matrix_account.Account
 import org.secfirst.umbrella.data.database.matrix_account.MatrixAccountRepo
 import org.secfirst.umbrella.data.database.matrix_account.Room
@@ -17,7 +20,8 @@ import javax.inject.Inject
 class ChatInteractorImp @Inject constructor(appPreferenceHelper: AppPreferenceHelper,
                                             matrixApiHelper: MatrixApiHelper,
                                             private val matrixAccountRepo: MatrixAccountRepo,
-                                            private val checklistRepo: ChecklistRepo) : BaseInteractorImp(appPreferenceHelper, matrixApiHelper), ChatBaseInteractor {
+                                            private val checklistRepo: ChecklistRepo,
+                                            private val formRepo: FormRepo) : BaseInteractorImp(appPreferenceHelper, matrixApiHelper), ChatBaseInteractor {
 
     override suspend fun registerUser(username: String, password: String, email: String) = matrixApiHelper.registerUserAsync("application/json", registerUserRequest(username, password))
 
@@ -60,4 +64,8 @@ class ChatInteractorImp @Inject constructor(appPreferenceHelper: AppPreferenceHe
     override suspend fun fetchSubjectById(subjectId: String) = checklistRepo.loadSubjectById(subjectId)
 
     override suspend fun fetchDifficultyById(difficultyId: String) = checklistRepo.loadDifficultyById(difficultyId)
+
+    override suspend fun fetchActiveForms(): List<ActiveForm> = formRepo.loadActiveForms()
+
+    override suspend fun fetchModalForms(): List<Form> = formRepo.loadModelForms()
 }

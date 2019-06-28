@@ -6,8 +6,12 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
+import org.secfirst.umbrella.data.VirtualStorage
 import org.secfirst.umbrella.data.database.checklist.Checklist
 import org.secfirst.umbrella.data.database.checklist.Dashboard
+import org.secfirst.umbrella.data.database.form.ActiveForm
+import org.secfirst.umbrella.data.database.form.Form
+import org.secfirst.umbrella.data.database.form.asHTML
 import org.secfirst.umbrella.data.database.matrix_account.Account
 import org.secfirst.umbrella.data.database.matrix_account.Contact
 import org.secfirst.umbrella.data.database.matrix_account.Room
@@ -21,11 +25,14 @@ import org.secfirst.umbrella.feature.chat.view.ChatView
 import org.secfirst.umbrella.misc.*
 import org.secfirst.umbrella.misc.AppExecutors.Companion.uiContext
 import retrofit2.HttpException
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
 import java.io.InputStream
 import javax.inject.Inject
 
-class ChatPresenterImp<V : ChatView, I : ChatBaseInteractor> @Inject constructor(interactor: I) : BasePresenterImp<V, I>(interactor = interactor),
+class ChatPresenterImp<V : ChatView, I : ChatBaseInteractor> @Inject constructor(private val virtualStorage: VirtualStorage,
+                                                                                 interactor: I) : BasePresenterImp<V, I>(interactor = interactor),
         ChatBasePresenter<V, I> {
 
     override fun submitRegisterUser(username: String, password: String, email: String) {
@@ -177,10 +184,13 @@ class ChatPresenterImp<V : ChatView, I : ChatBaseInteractor> @Inject constructor
         interactor?.let {
             launchSilent(uiContext) {
                 try {
+                    val fileExtension = file.extension
+                    val mediaType = if (file.extension == "pdf") "application/$fileExtension"
+                    else "text/$fileExtension"
                     val account = it.fetchAccount(it.getMatrixUsername())
-                    val requestBody = RequestBody.create(MediaType.parse("application/pdf"), file)
+                    val requestBody = RequestBody.create(MediaType.parse(mediaType), file)
                     val body = MultipartBody.Part.create(requestBody)
-                    val uploadFileResponse = it.uploadFile("application/pdf", account!!.access_token, file.name, body).await()
+                    val uploadFileResponse = it.uploadFile(mediaType, account!!.access_token, file.name, body).await()
                     println(uploadFileResponse.content_uri)
                     getView()?.fileUploadSuccess(uploadFileResponse.content_uri, file.name)
                 } catch (e: Exception) {
@@ -200,8 +210,12 @@ class ChatPresenterImp<V : ChatView, I : ChatBaseInteractor> @Inject constructor
                     println(response.message())
                     if (response.isSuccessful) {
                         val inputStream: InputStream = response.body()!!.byteStream()
-                        val title = response.headers()["Content-Disposition"]?.replace("inline; filename=", "") + "_${System.currentTimeMillis() / 1000}"
-                        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "$title.pdf")
+                        val contentType = response.headers()["Content-Type"]
+                        val ext = if (contentType == "application/pdf") "pdf" else "html"
+                        val title = response.headers()["Content-Disposition"]?.replace("inline; filename=", "")
+                                ?.replace("inline; filename*=utf-8''", "")
+                                ?.replace("%20", " ") + "_${System.currentTimeMillis() / 1000}"
+                        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "$title.$ext")
                         copyStreamToFile(inputStream, file)
                         getView()?.fileDownloadSuccess()
                     }
@@ -214,14 +228,25 @@ class ChatPresenterImp<V : ChatView, I : ChatBaseInteractor> @Inject constructor
         }
     }
 
-    override fun submitLoadItemToShare() {
+    override fun submitLoadItemToShare(type: String) {
         launchSilent(uiContext) {
             interactor?.let {
+
                 val allDashboard = mutableListOf<Dashboard.Item>()
-                val checklistInProgress = it.fetchAllChecklistInProgress()
-                val inProgressList = dashboardMount(checklistInProgress, "My Checklists")
-                allDashboard.addAll(inProgressList)
-                getView()?.showItemToShare(allDashboard)
+                var allActiveForms: MutableList<ActiveForm> = mutableListOf()
+                when (type) {
+                    "Checklist" -> {
+                        val checklistInProgress = it.fetchAllChecklistInProgress()
+                        val inProgressList = dashboardMount(checklistInProgress, "My Checklists")
+                        allDashboard.addAll(inProgressList)
+                    }
+                    "Form" -> {
+                        allActiveForms = it.fetchActiveForms().toMutableList()
+                        val modelForms = it.fetchModalForms()
+                        populateReferenceId(allActiveForms, modelForms)
+                    }
+                }
+                getView()?.showItemToShare(allDashboard, allActiveForms)
             }
         }
     }
@@ -249,8 +274,34 @@ class ChatPresenterImp<V : ChatView, I : ChatBaseInteractor> @Inject constructor
         return dashboards
     }
 
+    override fun submitShareForm(activeForm: ActiveForm, context: Context) {
+        launchSilent(uiContext) {
+            val shareFile = virtualStorage.mountFilesystem(activeForm.asHTML(), activeForm.title)
+            submitUploadFile(shareFile, context)
+
+        }
+    }
+
     companion object {
         const val USER_IN_USE_ERROR = "M_USER_IN_USE"
+    }
+
+    private fun write(file: File, document: String): File {
+        val writer = BufferedWriter(FileWriter(file))
+        writer.write(document)
+        writer.flush()
+        writer.close()
+        return file
+    }
+
+
+    private fun populateReferenceId(activeForms: List<ActiveForm>, modelForms: List<Form>) {
+        activeForms.forEach { activeForm ->
+            modelForms.forEach { modelForm ->
+                if (activeForm.sha1Form == modelForm.path)
+                    activeForm.form = modelForm
+            }
+        }
     }
 }
 
