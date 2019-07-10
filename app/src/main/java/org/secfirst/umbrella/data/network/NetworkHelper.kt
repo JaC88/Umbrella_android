@@ -60,23 +60,23 @@ interface MatrixApiHelper {
     fun retrieveJoinedRoomsAsync(@Query(ACCESS_TOKEN) access_token: String): Deferred<JoinedRoomsResponse>
 
     @POST(NetworkEndPoint.MATRIX_SEND_MESSAGE)
-    fun sendMessageAsync(@Path("room_id") room_id: String,
+    fun sendMessageAsync(@Path(ROOM_ID) room_id: String,
                          @Query(ACCESS_TOKEN) access_token: String,
                          @Body req: String): Deferred<SendMessageResponse>
 
     @GET(NetworkEndPoint.MATRIX_ROOM_MESSAGES)
-    fun getRoomMessagesAsync(@Path("room_id") room_id: String,
+    fun getRoomMessagesAsync(@Path(ROOM_ID) room_id: String,
                              @Query(ACCESS_TOKEN) access_token: String,
                              @Query("from") from: String?,
                              @Query("dir") dir: String,
                              @Query("limit") limit: Int): Deferred<RoomMessageResponse>
 
     @GET(NetworkEndPoint.MATRIX_ROOM_JOINED_MEMBERS)
-    fun getRoomMembersAsync(@Path("room_id") room_id: String,
+    fun getRoomMembersAsync(@Path(ROOM_ID) room_id: String,
                             @Query(ACCESS_TOKEN) access_token: String): Deferred<RoomJoinedMembersResponse>
 
     @POST(NetworkEndPoint.MATRIX_JOIN_ROOM)
-    fun joinRoomAsync(@Path("room_id") room_id: String,
+    fun joinRoomAsync(@Path(ROOM_ID) room_id: String,
                       @Query(ACCESS_TOKEN) access_token: String): Deferred<CreateRoomResponse>
 
     @GET(NetworkEndPoint.MATRIX_SYNC)
@@ -98,6 +98,7 @@ interface MatrixApiHelper {
     companion object {
         const val ACCESS_TOKEN = "access_token"
         const val CONTENT_TYPE = "Content-Type"
+        const val ROOM_ID = "room_id"
     }
 }
 

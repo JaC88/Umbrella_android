@@ -53,7 +53,7 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/text_size_larger"
         android:layout_marginTop="@dimen/recycler_view_margin_bottom"
-        android:background="@color/umbrella_green"
+        android:background="@drawable/rounded_rectangle_green"
         android:text="Register"
         android:textColor="@color/white" />
 

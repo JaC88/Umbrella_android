@@ -43,7 +43,7 @@
         android:layout_marginLeft="@dimen/text_size_larger"
         android:layout_marginTop="@dimen/recycler_view_margin_bottom"
         android:layout_marginRight="@dimen/text_size_larger"
-        android:background="@color/umbrella_green"
+        android:background="@drawable/rounded_rectangle_green"
         android:text="Sign In"
         android:textColor="@color/white" />
 

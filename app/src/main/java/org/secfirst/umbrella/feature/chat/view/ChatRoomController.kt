@@ -17,6 +17,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 import kotlinx.android.synthetic.main.chat_item_share_chooser_dialog.view.*
 import kotlinx.android.synthetic.main.chat_room_view.*
 import kotlinx.android.synthetic.main.chat_room_view.view.*
+import kotlinx.android.synthetic.main.matrix_chat_screen.view.*
 import org.jetbrains.anko.toast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -89,7 +90,7 @@ class ChatRoomController(bundle: Bundle) : BaseController(bundle), ChatView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
 
-        val view = inflater.inflate(R.layout.chat_room_view, container, false)
+        val view = inflater.inflate(R.layout.matrix_chat_screen, container, false)
         shareDialogView = inflater.inflate(R.layout.item_to_share_view, container, false)
         chooserView = inflater.inflate(R.layout.chat_item_share_chooser_dialog, container, false)
 

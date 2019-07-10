@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/community_join"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_small"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/font_small"
+        android:layout_marginBottom="@dimen/font_small"
+        android:text="Who can join this community?"
+        android:textColor="@color/umbrella_purple"
+        android:textSize="@dimen/text_size_smaller"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/organization_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/font_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_join">
+
+        <RadioButton
+            android:id="@+id/invitation_only_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Only people who have been invited"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/text_size_smaller" />
+
+
+        <RadioButton
+            android:id="@+id/everyone_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Everyone"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/text_size_smaller" />
+
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_small"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/font_small"
+        android:layout_marginBottom="@dimen/font_small"
+        android:text="Description"
+        android:textColor="@color/umbrella_purple"
+        android:textSize="@dimen/text_size_smaller"
+        app:layout_constraintTop_toBottomOf="@id/organization_radioGroup" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="@dimen/font_small"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintTop_toBottomOf="@id/description" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/save_organization_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/text_size_larger"
+        android:layout_marginRight="@dimen/text_size_larger"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/rounded_rectangle_green"
+        android:text="SAVE"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
